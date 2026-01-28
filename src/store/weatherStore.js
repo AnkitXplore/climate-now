@@ -6,6 +6,7 @@ import {
   notifyInfo,
   notifySuccess,
 } from "../components/basic/toast";
+import { getWeatherTheme, applyWeatherTheme } from "../utils/weatherTheme";
 
 /**
  * A persisted Zustand store hook for managing weather data and user-selected locations.
@@ -44,8 +45,15 @@ const useWeatherStore = create()(
         wind_speed_unit: "kmh",
         precipitation_unit: "mm",
       },
+      currentTheme: 'theme-day',
       
       setUnits: (newUnits) => set({ units: newUnits, weatherData: null }),
+      
+      setWeatherTheme: (weatherCode, isDay) => {
+        const theme = getWeatherTheme(weatherCode, isDay);
+        applyWeatherTheme(theme);
+        set({ currentTheme: theme });
+      },
 
       fetchWeather: async () => {
         const state = get();
@@ -72,8 +80,18 @@ const useWeatherStore = create()(
             `https://api.open-meteo.com/v1/forecast`,
             { params }
           );
+          
+          const weatherData = response.data;
+          
+          // Apply weather theme based on current conditions
+          if (weatherData.current && weatherData.current.weather_code !== undefined) {
+            const weatherCode = weatherData.current.weather_code;
+            const isDay = weatherData.current.is_day === 1;
+            get().setWeatherTheme(weatherCode, isDay);
+          }
+          
           set({
-            weatherData: response.data,
+            weatherData: weatherData,
             isFetching: false,
             isError: false,
           });

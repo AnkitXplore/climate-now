@@ -44,7 +44,7 @@ const PreLoader = () => {
           transition={{ duration: 0.5 }}
           className="text-2xl font-bold text-white not-dark:text-(--neutral-900) mb-2 font-serif"
         >
-          Weather Now
+          ClimateNow
         </motion.h2>
       </div>
     </div>

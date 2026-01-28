@@ -55,6 +55,37 @@
   --night-bg-end: #f3604243;
   --night-bg-end-solid: #f36042;
 
+  /* Dynamic Weather Theme Variables */
+  /* Clear/Sunny Theme */
+  --sunny-bg-start: #87CEEB;
+  --sunny-bg-end: #FFD700;
+  --sunny-accent: #FFA500;
+  
+  /* Cloudy Theme */
+  --cloudy-bg-start: #8B9DC3;
+  --cloudy-bg-end: #DFE3EE;
+  --cloudy-accent: #708090;
+  
+  /* Rainy Theme */
+  --rainy-bg-start: #4A5568;
+  --rainy-bg-end: #718096;
+  --rainy-accent: #3182CE;
+  
+  /* Snowy Theme */
+  --snowy-bg-start: #E2E8F0;
+  --snowy-bg-end: #F7FAFC;
+  --snowy-accent: #63B3ED;
+  
+  /* Stormy Theme */
+  --stormy-bg-start: #2D3748;
+  --stormy-bg-end: #4A5568;
+  --stormy-accent: #9F7AEA;
+  
+  /* Foggy Theme */
+  --foggy-bg-start: #CBD5E0;
+  --foggy-bg-end: #EDF2F7;
+  --foggy-accent: #A0AEC0;
+
   --neutral-900: rgb(3, 1, 45);
   --neutral-800: hsl(243, 27%, 20%);
   --neutral-700: hsl(243, 23%, 24%);
@@ -137,6 +168,60 @@
       background-position: 350% 50%, 350% 50%;
     }
   }
+
+  @keyframes sunnyGradient {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes cloudyGradient {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 100% 100%;
+    }
+  }
+
+  @keyframes rainyGradient {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 0% 100%;
+    }
+  }
+
+  @keyframes snowyGradient {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 100% 0%;
+    }
+  }
+
+  @keyframes stormyGradient {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 50% 50%;
+    }
+  }
+
+  @keyframes foggyGradient {
+    from {
+      background-position: 0% 50%;
+    }
+    to {
+      background-position: 100% 50%;
+    }
+  }
 }
 
 :root {
@@ -178,6 +263,25 @@ input:-webkit-autofill:active {
     font-family: var(--font-sans);
     line-height: 1.5;
     overflow-y: scroll;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    transition: background 1s ease-in-out;
+  }
+
+  /* Apply weather theme to body */
+  body.theme-sunny,
+  body.theme-cloudy,
+  body.theme-rainy,
+  body.theme-snowy,
+  body.theme-stormy,
+  body.theme-foggy,
+  body.theme-night {
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
   }
 
   button {
@@ -290,9 +394,76 @@ input:-webkit-autofill:active {
   animation: nightGradient 30s ease-in-out infinite alternate;
 }
 
+/* Dynamic Weather Theme Utilities */
+@utility theme-sunny {
+  background-image: linear-gradient(
+    135deg,
+    var(--sunny-bg-start),
+    var(--sunny-bg-end),
+    var(--sunny-accent)
+  );
+  background-size: 200% 200%;
+  animation: sunnyGradient 20s ease-in-out infinite alternate;
+}
+
+@utility theme-cloudy {
+  background-image: linear-gradient(
+    to bottom,
+    var(--cloudy-bg-start),
+    var(--cloudy-bg-end),
+    var(--cloudy-accent)
+  );
+  background-size: 150% 150%;
+  animation: cloudyGradient 25s ease-in-out infinite alternate;
+}
+
+@utility theme-rainy {
+  background-image: linear-gradient(
+    to bottom,
+    var(--rainy-bg-start),
+    var(--rainy-bg-end),
+    var(--rainy-accent)
+  );
+  background-size: 100% 200%;
+  animation: rainyGradient 15s ease-in-out infinite alternate;
+}
+
+@utility theme-snowy {
+  background-image: linear-gradient(
+    to right,
+    var(--snowy-bg-start),
+    var(--snowy-bg-end),
+    var(--snowy-accent)
+  );
+  background-size: 200% 100%;
+  animation: snowyGradient 30s ease-in-out infinite alternate;
+}
+
+@utility theme-stormy {
+  background-image: linear-gradient(
+    45deg,
+    var(--stormy-bg-start),
+    var(--stormy-bg-end),
+    var(--stormy-accent)
+  );
+  background-size: 150% 150%;
+  animation: stormyGradient 10s ease-in-out infinite alternate;
+}
+
+@utility theme-foggy {
+  background-image: linear-gradient(
+    to right,
+    var(--foggy-bg-start),
+    var(--foggy-bg-end),
+    var(--foggy-accent)
+  );
+  background-size: 300% 100%;
+  animation: foggyGradient 35s ease-in-out infinite alternate;
+}
+
 @layer components {
   .layout {
-    @apply flex flex-col items-center gap-6 sm:gap-12 xl:gap-16 p-4 md:p-6 xl:px-28 theme-day dark:theme-night min-h-screen text-white bg-(--neutral-900) not-dark:bg-(--blue-200);
+    @apply flex flex-col items-center gap-6 sm:gap-12 xl:gap-16 p-4 md:p-6 xl:px-28 min-h-screen text-white relative z-10;
   }
   .main {
     @apply w-full max-w-7xl pt-5;

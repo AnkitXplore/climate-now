@@ -12,9 +12,9 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg", "apple-touch-icon.png", "mask_icon.svg"],
       manifest: {
-        name: "Weather Now",
-        short_name: "WeatherNow",
-        description: "A sleek weather application",
+        name: "ClimateNow",
+        short_name: "ClimateNow",
+        description: "A modern weather application with dynamic themes",
         theme_color: "#03012d",
         background_color: "#03012d",
         display: "standalone",
